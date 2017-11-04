@@ -1,0 +1,21 @@
+- name: install prerequisites
+  apt: name={{ item }}
+  with_items:
+  - autoconf
+  - automake
+  - autotools-dev
+  - g++
+  - pkg-config
+  - python-dev
+  - python3-dev
+  - libtool
+  - make
+
+- name: checkout pyflame
+  git: repo=https://github.com/uber/pyflame.git dest=/opt/pyflame
+
+- name: compile pyflame
+  shell: cd /opt/pyflame && ./autogen.sh && ./configure && make creates=/opt/pyflame/src/pyflame
+
+- name: install pyflame
+  shell: cd /opt/pyflame && make install creates=/usr/local/bin/pyflame
